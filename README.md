@@ -7,7 +7,7 @@ image size: 4176 * 2073 = 8'656'848 pixels
 Speed: 188.42 millisec / Mpixel
 Speed is rather high, because everything is implemented in C++ and rather optimally.
 
-PNSR = 5.568
+PNSR = 16.149
 
 Something went wrong, because the result image is too green. Also I didn't process the edges perfectly.
 
