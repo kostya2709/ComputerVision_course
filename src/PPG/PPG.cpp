@@ -96,8 +96,22 @@ void calculate_red_blue_at_green( cv::Mat& src, uint32_t pad = 0)
 
             SquareField<3> field( src, x, y);
 
-            int64_t cur_blue = hue_transit( field[4].green, field[5].green, field[6].green, field[4].blue, field[6].blue);
-            int64_t cur_red = hue_transit( field[2].green, field[5].green, field[8].green, field[2].blue, field[8].blue);
+            int64_t cur_blue;
+            int64_t cur_red;
+
+            /*
+            * Green pixels in the even rows have blue neighbours horizontally and
+            * red neighbours vertically. Green pixels in the odd rows - vice versa.
+            */
+            if ( y % 2 )
+            {
+                cur_blue = hue_transit( field[4].green, field[5].green, field[6].green, field[4].blue, field[6].blue);
+                cur_red = hue_transit( field[2].green, field[5].green, field[8].green, field[2].red, field[8].red);
+            } else
+            {
+                cur_red = hue_transit( field[4].green, field[5].green, field[6].green, field[4].red, field[6].red);
+                cur_blue = hue_transit( field[2].green, field[5].green, field[8].green, field[2].blue, field[8].blue);
+            }
 
             field.get_central().blue = saturate_pixel( cur_blue);
             field.get_central().red = saturate_pixel( cur_red);
@@ -133,13 +147,13 @@ void calculate_green( cv::Mat& src, uint32_t pad = 0)
 
             int32_t cur_green;
             int32_t smallest = std::min( delta_N, std::min( delta_E, std::min( delta_W, delta_S)));
-            if ( smallest == delta_N)
+            if ( smallest == delta_N )
             {
                 cur_green = (field[8].green * 3 + field[18].green + field[13].get_colour( cur_colour) - field[3].get_colour( cur_colour)) / 4;
             } else if ( smallest == delta_E)
             {
                 cur_green = (field[14].green * 3 + field[12].green + field[13].get_colour( cur_colour) - field[15].get_colour( cur_colour)) / 4;
-            } else if ( smallest == delta_W)
+            } else if ( smallest == delta_W )
             {
                 cur_green = (field[12].green * 3 + field[14].green + field[13].get_colour( cur_colour) - field[11].get_colour( cur_colour)) / 4;
             } else

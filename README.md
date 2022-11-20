@@ -17,3 +17,8 @@ and therefore is really slow. So I implemented PSNR on Python.
 
 ![origin](https://github.com/kostya2709/Computer_Vision_course/blob/master/Original.bmp)
 ![result](https://github.com/kostya2709/Computer_Vision_course/blob/master/result.bmp)
+
+To implement the algorithm, the following article was used:
+![article_demosaicing](https://web.archive.org/web/20160923211135/https://sites.google.com/site/chklin/demosaic/)
+
+# 
