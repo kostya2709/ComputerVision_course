@@ -21,7 +21,7 @@ public:
             _less_median[channel] = 0;
             for ( uint32_t i = 0; i < area; ++i )
             {
-                uint32_t cur_val = field[i + 1][channel];
+                uint8_t cur_val = field[i + 1][channel];
                 pixels[channel].push_back( cur_val);
                 ++_data[channel][cur_val];
             }
@@ -30,23 +30,10 @@ public:
 
             const uint8_t median_val = pixels[channel][area / 2];
             _cur_median[channel] = median_val;
-            for ( uint32_t i = 0; i < area; ++i )
+            for ( uint32_t i = 0; i < median_val; ++i )
             {
-                uint8_t cur_val = pixels[channel][i];
-                if ( cur_val < median_val )
-                {
-                    ++_less_median[channel];
-                } else
-                {
-                    break;
-                }
+                _less_median[channel] += _data[channel][i];
             }
-
-            for ( uint32_t i = 0; i < area; ++i )
-            {
-                std::cout << (int)pixels[channel][i] << ' ';
-            }
-            std::cout << "\nLESS MEDIAN INIT " << _less_median[channel] << '\n';
         }
     }
 
@@ -70,18 +57,9 @@ public:
                 const uint8_t delete_val = field_old[k * field_size + 1][channel];
                 if ( delete_val < median_val )
                 {
-                    std::cout << "delete val " << (int)delete_val << '\n';
-                    std::cout << "median val " << (int)median_val << '\n';
-                    for ( uint32_t i = 0; i < field_size * field_size; ++i )
-                    {
-                        std::cout << _data[channel][i] << ' ';
-                    }
-                    std::cout << '\n';
                     --_less_median[channel];
-                    assert( _less_median[channel] >= 0 );
                 }
                 --_data[channel][delete_val];
-                assert( _data[channel][delete_val] >= 0 );
 
                 const uint8_t insert_val = field_new[(k + 1) * field_size][channel];
                 if ( insert_val < median_val )
@@ -95,9 +73,7 @@ public:
             while ( _less_median[channel] > half_area )
             {
                 --_cur_median[channel];
-                assert( _cur_median[channel] >= 0 );
                 _less_median[channel] -= _data[channel][_cur_median[channel]];
-                assert( _less_median[channel] >= 0 );
             }
 
             while ( _less_median[channel] + _data[channel][_cur_median[channel]] <= half_area )
@@ -110,7 +86,7 @@ public:
 
     void clear()
     {
-        memset( _data, 0, CHANNEL_NUM * VALUE_RANGE);
+        memset( _data, 0, CHANNEL_NUM * VALUE_RANGE * sizeof(_data[0][0]));
     }
     
 private:
@@ -121,17 +97,21 @@ private:
         VALUE_RANGE = 256
     };
 
-    int32_t _data[CHANNEL_NUM][VALUE_RANGE] = {};
+    uint32_t _data[CHANNEL_NUM][VALUE_RANGE] = {};
     RGB_pixel _cur_median;
-    int32_t _less_median[CHANNEL_NUM] = {};
+    uint32_t _less_median[CHANNEL_NUM] = {};
 };
 
 class HuangFilter : public BaseFilter
 {
 public:
-    HuangFilter( const uint32_t filter_size, cv::Mat& src) : 
-                 BaseFilter( filter_size, src),
-                 _storage( SquareField ( kDataPtr, kImageWidth, _cur_x, _cur_y, kFilterSize)){}
+    HuangFilter( const uint32_t filter_size, const cv::Mat& src, cv::Mat& res) : 
+                 BaseFilter( filter_size, src, res),
+                 _storage( SquareField ( kDataPtr, kImageWidth, _cur_x, _cur_y, kFilterSize))
+    {
+        SquareField field_new_res( kDataPtrRes, kImageWidth, _cur_x, _cur_y, kFilterSize);
+        field_new_res.get_central() = _storage.getMedian();
+    }
     
     void step()
     {
@@ -154,15 +134,17 @@ public:
 
             _cur_x = kFilterSize / 2;
             SquareField field_new( kDataPtr, kImageWidth, _cur_x, _cur_y, kFilterSize);
+            SquareField field_new_res( kDataPtrRes, kImageWidth, _cur_x, _cur_y, kFilterSize);
             _storage.clear();
             _storage.init( field_new);
-            // field_new.get_central() = _storage.getMedian();
+            field_new_res.get_central() = _storage.getMedian();
             return;
         }
 
         SquareField field_new( kDataPtr, kImageWidth, _cur_x, _cur_y, kFilterSize);
+        SquareField field_new_res( kDataPtrRes, kImageWidth, _cur_x, _cur_y, kFilterSize);
         _storage.update( field_old, field_new);
-        // field_new.get_central() = _storage.getMedian();
+        field_new_res.get_central() = _storage.getMedian();
     }
 private:
     Storage _storage;
@@ -170,7 +152,7 @@ private:
 
 cv::Mat HuangMedianFilter( const cv::Mat& init_image, const uint32_t filter_size)
 {
-    cv::Mat result( init_image);
-    traverse<HuangFilter>( result, filter_size);
+    cv::Mat result = init_image.clone();
+    traverse<HuangFilter>( init_image, result, filter_size);
     return result;
 }
