@@ -47,7 +47,7 @@ void calculate_at_red_blue( cv::Mat& src, uint32_t pad = 0)
                 unknown = colour::BLUE;
             }
 
-            SquareField<5> field( src, x, y);
+            SquareField field( src, x, y, 5);
 
             int64_t delta_NE = abs( (int64_t)field[9].get_colour( unknown) - field[17].get_colour( unknown)) +
                                abs( (int64_t)field[5].get_colour( known)   - field[13].get_colour( known)) +
@@ -94,7 +94,7 @@ void calculate_red_blue_at_green( cv::Mat& src, uint32_t pad = 0)
             uint32_t x = j + pad;
             uint32_t y = i + pad;
 
-            SquareField<3> field( src, x, y);
+            SquareField field( src, x, y, 3);
 
             int64_t cur_blue;
             int64_t cur_red;
@@ -138,7 +138,7 @@ void calculate_green( cv::Mat& src, uint32_t pad = 0)
             uint32_t x = j + pad;
             uint32_t y = i + pad;
 
-            SquareField<5> field( src, x, y);
+            SquareField field( src, x, y, 3);
 
             int32_t delta_N = abs( field[13].get_colour( cur_colour) - field[3].get_colour( cur_colour))  * 2 + abs( field[8].green  - field[18].green);
             int32_t delta_E = abs( field[13].get_colour( cur_colour) - field[15].get_colour( cur_colour)) * 2 + abs( field[12].green - field[14].green);

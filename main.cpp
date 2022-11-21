@@ -2,19 +2,20 @@
 #include <iostream>
 #include <algorithm>
 #include <pixel/pixel.hpp>
-#include <PPG/PPG.hpp>
+#include <median_filters/naive.hpp>
+#include <median_filters/Huang_filter.hpp>
 #include <metrics/psnr.hpp>
 #include <chrono>
+#include <median_filters/naive.hpp>
 
 
 int main( int argc, char** argv ) {
 
-    cv::Mat init_image = cv::imread( "CFA.bmp", cv::IMREAD_GRAYSCALE);
-    cv::Mat orig_image = cv::imread( "Original.bmp");
+    cv::Mat init_image = cv::imread( "cat.bmp");
 
-
+    uint32_t filter_size = 5;
     auto start = std::chrono::steady_clock::now();
-    cv::Mat image = make_PPG_demosaicing( init_image);
+    cv::Mat image = HuangMedianFilter( init_image, filter_size);
     auto end = std::chrono::steady_clock::now();
 
 
@@ -23,10 +24,10 @@ int main( int argc, char** argv ) {
         << " millisec";
 
 
-    // cv::imshow("Display window", image);
-    // int k = cv::waitKey(0); // Wait for a keystroke in the window
+    cv::imshow("Display window", image);
+    int k = cv::waitKey(0); // Wait for a keystroke in the window
 
-    cv::imwrite( "result.bmp", image);
+    // cv::imwrite( "result_filter.bmp", image);
     
     return 0;
 }
