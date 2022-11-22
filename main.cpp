@@ -4,6 +4,7 @@
 #include <pixel/pixel.hpp>
 #include <median_filters/naive.hpp>
 #include <median_filters/Huang_filter.hpp>
+#include <median_filters/Perreault_filter.hpp>
 #include <metrics/psnr.hpp>
 #include <chrono>
 #include <median_filters/naive.hpp>
@@ -15,7 +16,7 @@ int main( int argc, char** argv ) {
 
     uint32_t filter_size = 5;
     auto start = std::chrono::steady_clock::now();
-    cv::Mat image = HuangMedianFilter( init_image, filter_size);
+    cv::Mat image = PerreaultMedianFilter( init_image, filter_size);
     auto end = std::chrono::steady_clock::now();
 
 
