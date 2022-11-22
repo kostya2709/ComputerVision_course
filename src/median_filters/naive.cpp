@@ -8,7 +8,7 @@ class NaiveFilter : public BaseFilter
 public:
     NaiveFilter( const uint32_t filter_size, const cv::Mat& src, cv::Mat& result) : BaseFilter( filter_size, src, result) {}
     
-    void step()
+    void step() final
     {
         if ( _cur_y == (kImageHeight - kFilterSize / 2) )
         {
@@ -44,7 +44,5 @@ public:
 
 cv::Mat naiveMedianFilter( const cv::Mat& init_image, const uint32_t filter_size)
 {
-    cv::Mat result = init_image.clone();
-    traverse<NaiveFilter>( init_image, result, filter_size);
-    return result;
+    return traverse<NaiveFilter>( init_image, filter_size);
 }

@@ -129,7 +129,7 @@ class PerreaultFilter : public BaseFilter
         uint32_t _less_median[CHANNEL_NUM] = {};
         std::vector<std::vector<uint32_t>> _cols[CHANNEL_NUM];
         RGB_pixel* _data_ptr;
-        int32_t _cols_num;
+        uint32_t _cols_num;
     };
 
 
@@ -142,7 +142,7 @@ public:
         field_new_res.get_central() = _storage.getMedian();
     }
     
-    void step()
+    void step() final
     {
         if ( _cur_y == (kImageHeight - kFilterSize / 2) )
         {
@@ -181,7 +181,5 @@ private:
 
 cv::Mat PerreaultMedianFilter( const cv::Mat& init_image, const uint32_t filter_size)
 {
-    cv::Mat result = init_image.clone();
-    traverse<PerreaultFilter>( init_image, result, filter_size);
-    return result;
+    return traverse<PerreaultFilter>( init_image, filter_size);
 }

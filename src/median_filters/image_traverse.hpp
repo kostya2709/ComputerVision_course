@@ -4,8 +4,9 @@
 #include <iostream>
 
 template<typename FilterType>
-void traverse( const cv::Mat& src, cv::Mat& result, uint32_t filter_size)
+cv::Mat traverse( const cv::Mat& src, uint32_t filter_size)
 {
+    cv::Mat result = src.clone();
     uint32_t height = src.rows;
     uint32_t width = src.cols;
 
@@ -18,7 +19,8 @@ void traverse( const cv::Mat& src, cv::Mat& result, uint32_t filter_size)
 
     for ( uint32_t i = 0; i < (width - (filter_size - 1)) * (height - (filter_size - 1)); ++i )
     {
-        std::cout << "Step " << i << '\n';
         filter.step();
     }
+
+    return result;
 }
