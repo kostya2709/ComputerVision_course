@@ -11,9 +11,6 @@ PNSR = 19.371
 
 Something went wrong, because the result image is too green. Also I didn't process the edges perfectly.
 
-I also didn't find a decent library for long floating point arithmetic for C++. So I made a class-wrapper,
-which stores a value like a string and calculates everything via Python. But this method requires writing to file
-and therefore is really slow. So I implemented PSNR on Python.
 
 ![origin](https://github.com/kostya2709/Computer_Vision_course/blob/master/Original.bmp)
 ![result](https://github.com/kostya2709/Computer_Vision_course/blob/master/result.bmp)
@@ -21,4 +18,12 @@ and therefore is really slow. So I implemented PSNR on Python.
 To implement the algorithm, the following article was used:
 ![article_demosaicing](https://web.archive.org/web/20160923211135/https://sites.google.com/site/chklin/demosaic/)
 
-# 
+# Median Filters
+
+Median Filters find the mean value of pixels in a sliding window and substitute a central pixel with this median value. They are often used to subdue salt-and-pepper noise. 
+In this work, three algorithms of median filters were implemented, their performance were compared, conclusions were done.
+
+## Example
+
+Let's take an image of a cat, add some salt-and-pepper noise and try to remove or at least to smooth it.
+
