@@ -4,8 +4,8 @@ CC = g++
 CFLAGS = -Wall# -Werror
 INCLUDE = -Isrc -Ilibs
 
-all: pixel.o bayer.o PPG.o metrics median_filters main.o
-	$(CC) pixel.o bayer.o PPG.o Huang_filter.o Perreault_filter.o OpenCV_filter.o naive.o mse.o psnr.o main.o -o output `pkg-config --cflags --libs opencv`
+all: pixel.o bayer.o PPG.o median_filters main.o
+	$(CC) pixel.o bayer.o PPG.o Huang_filter.o Perreault_filter.o OpenCV_filter.o naive.o main.o -o output `pkg-config --cflags --libs opencv`
 
 main.o:
 	$(CC) $(CFLAGS) $(INCLUDE) -c main.cpp -std=c++17 `pkg-config --cflags --libs opencv`
@@ -24,10 +24,6 @@ median_filters:
 	$(CC) $(CFLAGS) $(INCLUDE) -c src/median_filters/Huang_filter.cpp `pkg-config --cflags --libs opencv`
 	$(CC) $(CFLAGS) $(INCLUDE) -c src/median_filters/Perreault_filter.cpp `pkg-config --cflags --libs opencv`
 	$(CC) $(CFLAGS) $(INCLUDE) -c src/median_filters/OpenCV_filter.cpp `pkg-config --cflags --libs opencv`
-
-metrics:
-	$(CC) $(CFLAGS) $(INCLUDE) -c src/metrics/mse.cpp `pkg-config --cflags --libs opencv`
-	$(CC) $(CFLAGS) $(INCLUDE) -c src/metrics/psnr.cpp `pkg-config --cflags --libs opencv`
 
 clean:
 	rm *.o
