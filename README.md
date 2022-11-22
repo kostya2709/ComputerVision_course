@@ -34,11 +34,11 @@ Let's take an image of a cat, add some salt-and-pepper noise and try to remove o
 We can eliminate noise with median filters. For instance, we can use Huang filter.
 Changing the filter size, blurring also changes.
 
-![R = 3](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_3.bmp)
-![R = 5](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_5.bmp)
-![R = 7](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_7.bmp)
-![R = 11](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_11.bmp)
-![R = 27](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_27.bmp)
+![R = 3](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_3.bmp "R = 3")
+![R = 5](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_5.bmp "R = 5")
+![R = 7](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_7.bmp "R = 7")
+![R = 11](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_11.bmp "R = 11")
+![R = 27](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/median_filters/noisy_cat/noisy_cat_27.bmp "R = 27")
 
 ## Median filter algorithms
 
