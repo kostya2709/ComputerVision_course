@@ -49,15 +49,15 @@ There are three observed median filter algorithms: naive sorting, [Huang algorit
 This transform calculates parameteres of a line, on which several points are located. 
 In this task, it was used to determine angle of photograph rotation.
 
-[Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
-[Gradients](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_grad.jpg)
-[Hough](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_hough.jpg)
-[Result](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_res.jpg)
+![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
+![Gradients](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_grad.jpg)
+![Hough](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_hough.jpg)
+![Result](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_res.jpg)
 
 There are some examples of rotation firstly with the nearest neighbour algorithm, then with bilinear algorithm.
-[Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
-[Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_nearest.jpg)
-[Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_bilinear.jpg)
+![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
+![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_nearest.jpg)
+![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_bilinear.jpg)
 
 As you can see, it is rather complicated to notice any difference at all.
 
