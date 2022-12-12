@@ -56,8 +56,8 @@ In this task, it was used to determine the angle of a photograph rotation. To ac
 
 There are some examples of rotation firstly with the nearest neighbour algorithm, then with bilinear algorithm.
 ![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
-![nearest](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_nearest.jpg)
-![bilinear](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_bilinear.jpg)
+![nearest](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_nearest.jpg)
+![bilinear](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_bilinear.jpg)
 
 As you can see, it is rather complicated to notice any difference at all.
 
