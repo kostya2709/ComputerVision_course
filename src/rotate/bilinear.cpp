@@ -36,8 +36,8 @@ cv::Mat bilinearRotate( const cv::Mat& src, const double angle)
             const cv::Mat src_vec = rotation_matrix * cv::Mat( vec);
             const cv::Point2d src_point( centre.x + src_vec.at<double>( 0, 0), centre.y + src_vec.at<double>( 1, 0));
 
-            int32_t x_arr[] = { std::floor( src_point.x), std::ceil( src_point.x)};
-            int32_t y_arr[] = { std::floor( src_point.y), std::ceil( src_point.y)};
+            int32_t x_arr[] = { (int32_t)std::floor( src_point.x), (int32_t)std::ceil( src_point.x)};
+            int32_t y_arr[] = { (int32_t)std::floor( src_point.y), (int32_t)std::ceil( src_point.y)};
             int inside_cnt = 0;
             int sum[src.channels()];
             for ( int i = 0; i < src.channels(); ++i )

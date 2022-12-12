@@ -10,16 +10,16 @@
 
 int main( int argc, char** argv ) {
 
-    // for ( int i = 1; i < 11; ++i )
-    // {
-    //     cv::Mat init_image = cv::imread( "examples/FHT/original/" + std::to_string(i) + ".jpg");
+    for ( int i = 1; i < 11; ++i )
+    {
+        cv::Mat init_image = cv::imread( "examples/FHT/original/" + std::to_string(i) + ".jpg");
 
-    //     cv::Mat transformed = FastHoghTransform( init_image, nearestNeighbourRotate, i);
-    //     // cv::imshow("Display window", transformed);
-    //     // int k = cv::waitKey(0); // Wait for a keystroke in the window
+        cv::Mat transformed = FastHoghTransform( init_image, bilinearRotate, i);
+        // cv::imshow("Display window", transformed);
+        // int k = cv::waitKey(0); // Wait for a keystroke in the window
 
-    //     cv::imwrite( "examples/FHT/transformed/" + std::to_string(i) + "_res.jpg", transformed);
-    // }
+        cv::imwrite( "examples/FHT/transformed/" + std::to_string(i) + "_res.jpg", transformed);
+    }
 
     // std::cout << "{" << std::flush;
     // int test_num = 14;
@@ -44,11 +44,11 @@ int main( int argc, char** argv ) {
     // std::cout << "}\n" << std::flush;
 
 
-    cv::Mat init_image = cv::imread( "examples/FHT/original/1.jpg");
-    cv::Mat rotated_n = nearestNeighbourRotate( init_image, M_PI_4);
-    cv::Mat rotated_b = bilinearRotate( init_image, M_PI_4);
-    cv::imwrite( "examples/FHT/transformed/1_nearest.jpg", rotated_n);
-    cv::imwrite( "examples/FHT/transformed/1_bilinear.jpg", rotated_b);
+    // cv::Mat init_image = cv::imread( "examples/FHT/original/1.jpg");
+    // cv::Mat rotated_n = nearestNeighbourRotate( init_image, M_PI_4);
+    // cv::Mat rotated_b = bilinearRotate( init_image, M_PI_4);
+    // cv::imwrite( "examples/FHT/transformed/1_nearest.jpg", rotated_n);
+    // cv::imwrite( "examples/FHT/transformed/1_bilinear.jpg", rotated_b);
 
     return 0;
 }

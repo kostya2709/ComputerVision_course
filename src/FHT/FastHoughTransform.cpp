@@ -11,8 +11,8 @@ static cv::Mat SobelOperator( const cv::Mat& image)
     cv::Mat blurred, gray, grad;
 
     // Remove noise by blurring with a Gaussian filter
-    // cv::GaussianBlur( image, blurred, cv::Size(5, 5), 0, 0, cv::BORDER_DEFAULT);
-    cv::medianBlur( image, blurred, 41);
+    cv::GaussianBlur( image, blurred, cv::Size(5, 5), 0, 0, cv::BORDER_DEFAULT);
+    // cv::medianBlur( image, blurred, 5);
 
     // Convert to grayscale
     cv::cvtColor( blurred, gray, cv::COLOR_BGR2GRAY);
