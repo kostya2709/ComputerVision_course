@@ -47,7 +47,7 @@ There are three observed median filter algorithms: naive sorting, [Huang algorit
 # Fast Hough Transform
 
 This transform calculates parameteres of a line, on which several points are located. 
-In this task, it was used to determine angle of photograph rotation.
+In this task, it was used to determine the angle of a photograph rotation. To achieve better quality, some blurring and Sobel operator were used. They allow to differentiate lines more easily.
 
 ![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
 ![Gradients](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/transformed/1_grad.jpg)
@@ -56,8 +56,8 @@ In this task, it was used to determine angle of photograph rotation.
 
 There are some examples of rotation firstly with the nearest neighbour algorithm, then with bilinear algorithm.
 ![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1.jpg)
-![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_nearest.jpg)
-![Original](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_bilinear.jpg)
+![nearest](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_nearest.jpg)
+![bilinear](https://github.com/kostya2709/ComputerVision_course/blob/master/examples/FHT/original/1_bilinear.jpg)
 
 As you can see, it is rather complicated to notice any difference at all.
 
