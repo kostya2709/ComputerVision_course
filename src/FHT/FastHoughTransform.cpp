@@ -11,7 +11,8 @@ static cv::Mat SobelOperator( const cv::Mat& image)
     cv::Mat blurred, gray, grad;
 
     // Remove noise by blurring with a Gaussian filter
-    cv::GaussianBlur( image, blurred, cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
+    // cv::GaussianBlur( image, blurred, cv::Size(5, 5), 0, 0, cv::BORDER_DEFAULT);
+    cv::medianBlur( image, blurred, 41);
 
     // Convert to grayscale
     cv::cvtColor( blurred, gray, cv::COLOR_BGR2GRAY);
@@ -58,7 +59,7 @@ static std::pair<double, uint32_t> getMaxLineVar( const cv::Mat& image)
     return std::make_pair( max_stddev * max_stddev, index);
 }
 
-static cv::Mat calc_sums( cv::Mat& image, uint32_t xmin, uint32_t xmax)
+static cv::Mat calc_sums( const cv::Mat& image, uint32_t xmin, uint32_t xmax)
 {
 
     uint32_t height = image.rows;
@@ -86,35 +87,9 @@ static cv::Mat calc_sums( cv::Mat& image, uint32_t xmin, uint32_t xmax)
         }
     }
     return res;
-
-    // uint32_t height = image.rows;
-    // if ( xmax - xmin == 1 )
-    // {
-    //     return image;
-    // } else
-    // {
-    //     uint32_t xmid = (xmin + xmax) / 2;
-    //     calc_sums( image, xmin, xmid);
-    //     calc_sums( image, xmid, xmax);
-    //     int32_t stripe_width = xmax - xmin;
-    //     for ( int32_t y = 0; y < height; ++y )
-    //     {
-    //         for ( int32_t shift = (stripe_width - 1); shift >= 0; --shift )
-    //         {
-    //             int32_t second = 0;
-    //             if ( y + shift / 2 + shift % 2 < height)
-    //             {
-    //                 second = image.at<int32_t>( (y + shift / 2 + shift % 2)/* % height*/, xmin + stripe_width / 2 + shift / 2);
-    //             }
-    //             image.at<int32_t>( y, xmin + shift) = image.at<int32_t>( y, xmin + shift / 2) +
-    //                                                   second;
-    //         }
-    //     }
-    // }
-    // return image;
 }
 
-static cv::Mat FastHoughAlgorithm( cv::Mat& image)
+cv::Mat FastHoughAlgorithm( const cv::Mat& image)
 {
     return calc_sums( image, 0, image.cols);
 }
@@ -135,14 +110,16 @@ static cv::Mat normalizeMat( cv::Mat& image)
 
 cv::Mat FastHoghTransform( const cv::Mat& init, cv::Mat(*rotationFuncton)(const cv::Mat&, double), int num)
 {
-    cv::Mat grad_image = SobelOperator( init);
-    cv::Mat grad_images[2] = { grad_image, SobelOperator( rotationFuncton( init, M_PI_2))};
+    cv::Mat flipped;
+    cv::flip( init, flipped, 1);
+    cv::Mat grad_images[2] = { SobelOperator( init), SobelOperator( flipped)};
 
     auto name = std::string("examples/FHT/transformed/") + 
                 std::to_string(num) + "_grad.jpg";
-    cv::imwrite( name, grad_image);
+    cv::imwrite( name, grad_images[0]);
 
     std::pair<double, uint32_t> var_info[2];
+    cv::Mat houghImage[2];
     double angle = 0;
 
     for ( int i = 0; i < 2; ++i )
@@ -151,30 +128,26 @@ cv::Mat FastHoghTransform( const cv::Mat& init, cv::Mat(*rotationFuncton)(const 
         cv::Mat int_image;
         padded.convertTo( int_image, CV_32SC1);
 
-        cv::Mat res = FastHoughAlgorithm( int_image);
+        houghImage[i] = FastHoughAlgorithm( int_image);
 
-        if ( i == 0 )
-        {
-            auto name = std::string("examples/FHT/transformed/") + 
-            std::to_string(num) + "_hough.jpg";
-            cv::imwrite( name, normalizeMat(res));
-        }
-
-        var_info[i] = getMaxLineVar( res);
+        var_info[i] = getMaxLineVar( houghImage[i]);
     }
 
 
+    auto name_hough = std::string("examples/FHT/transformed/") + 
+                std::to_string(num) + "_hough.jpg";
 
     if ( var_info[1].first > var_info[0].first)
     {
         angle = -std::atan( (double)var_info[1].second / grad_images[1].cols);
+        cv::imwrite( name_hough, normalizeMat( houghImage[1]));
     } else
     {
         angle = std::atan( (double)var_info[0].second / grad_images[0].cols);
+        cv::imwrite( name_hough, normalizeMat( houghImage[0]));    
     }
 
     std::cout << angle << "\n";
     cv::Mat rotated = rotationFuncton( init, angle);
-    //return res;
     return rotated;
 }

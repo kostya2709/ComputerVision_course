@@ -1,6 +1,6 @@
 
 OPENCV_FLAGS = `pkg-config --cflags --libs opencv`
-CC = g++
+CC = g++ -O0
 CFLAGS = #-Wall# -Werror
 INCLUDE = -Isrc -Ilibs
 
